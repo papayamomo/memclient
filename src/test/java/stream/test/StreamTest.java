@@ -11,9 +11,9 @@ public class StreamTest {
 
     @Test
     public void WriteReadFile() {
-        String fileName = "/Users/momo/IdeaProjects/MyMemClient/src/test/java/stream/test/StreamFile";
-        writeFile(fileName, "你好,我是中文!");
-        readFile(fileName);
+//        String fileName = "/Users/momo/IdeaProjects/MyMemClient/src/test/java/stream/test/StreamFile";
+//        writeFile(fileName, "你好,我是中文!");
+//        readFile(fileName);
     }
 
     private void readFile(String fileName) {
