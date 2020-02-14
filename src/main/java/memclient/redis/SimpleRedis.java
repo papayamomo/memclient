@@ -59,5 +59,42 @@ public class SimpleRedis {
         return null;
     }
 
+    public void expire(final String key, final int seconds) throws IOException {
+
+        OutputStream os = socket.getOutputStream();
+        InputStream is = socket.getInputStream();
+
+        String cmd = "expire " + key + " " + seconds + "\r\n";
+        os.write(cmd.getBytes());
+
+        byte[] bytes = new byte[1024];
+        int len = is.read(bytes);
+
+        System.out.println(new String(bytes,0,len));
+//        String[] results = new String(bytes,0,len).split("\r\n");
+//        if (results.length > 1) {
+//            return results[1];
+//        }
+//        return null;
+    }
+
+
+    public String ttl(final String key) throws IOException {
+
+        OutputStream os = socket.getOutputStream();
+        InputStream is = socket.getInputStream();
+
+        String cmd = "ttl " + key + "\r\n";
+        os.write(cmd.getBytes());
+
+        byte[] bytes = new byte[1024];
+        int len = is.read(bytes);
+
+//        String[] results = new String(bytes,0,len).split("\r\n");
+//        if (results.length > 1) {
+//            return results[1];
+//        }
+        return new String(bytes,0,len);
+    }
 
 }

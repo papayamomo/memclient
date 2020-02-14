@@ -16,5 +16,8 @@ public class test {
             System.out.println(myRedis.get("111"));
             System.out.println("-------------------------");
         }
+
+        myRedis.expire("111", 1000);
+        System.out.println(myRedis.ttl("111"));
     }
 }
