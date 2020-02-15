@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class SimpleRedis {
 
@@ -95,6 +99,54 @@ public class SimpleRedis {
 //            return results[1];
 //        }
         return new String(bytes,0,len);
+    }
+
+
+    /**
+     * SET
+     */
+    public String sadd(final String key, String... values) throws IOException {
+
+        OutputStream os = socket.getOutputStream();
+        InputStream is = socket.getInputStream();
+
+        String valuesStr = "";
+        for (String value : values) {
+            valuesStr += " " + value;
+        }
+        String cmd = "sadd " + key + " " + valuesStr + "\r\n";
+        os.write(cmd.getBytes());
+
+        byte[] bytes = new byte[1024];
+        int len = is.read(bytes);
+
+        return new String(bytes,0,len);
+    }
+
+
+    public Set<String> smembers(final String key) throws IOException {
+
+        OutputStream os = socket.getOutputStream();
+        InputStream is = socket.getInputStream();
+
+        String cmd = "smembers " + key + "\r\n";
+        os.write(cmd.getBytes());
+
+        byte[] bytes = new byte[1024];
+        int len = is.read(bytes);
+
+
+        String[] results = new String(bytes,0,len).split("\r\n");
+        if (results.length > 2) {
+            Set<String> set = new HashSet<String>();
+            for (int i = 2; i < results.length; i++) {
+                if (i % 2 == 0) {
+                    set.add(results[i]);
+                }
+            }
+            return set;
+        }
+        return null;
     }
 
 }
