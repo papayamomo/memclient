@@ -101,6 +101,23 @@ public class SimpleRedis {
         return new String(bytes,0,len);
     }
 
+    public String del(final String key) throws IOException {
+
+        OutputStream os = socket.getOutputStream();
+        InputStream is = socket.getInputStream();
+
+        String cmd = "del " + key + "\r\n";
+        os.write(cmd.getBytes());
+
+        byte[] bytes = new byte[1024];
+        int len = is.read(bytes);
+
+//        String[] results = new String(bytes,0,len).split("\r\n");
+//        if (results.length > 1) {
+//            return results[1];
+//        }
+        return new String(bytes,0,len);
+    }
 
     /**
      * SET
@@ -146,6 +163,55 @@ public class SimpleRedis {
             }
             return set;
         }
+        return null;
+    }
+
+
+    /**
+     * LIST
+     */
+    public String lpush(final String key, String... values) throws IOException {
+
+        OutputStream os = socket.getOutputStream();
+        InputStream is = socket.getInputStream();
+
+        String valuesStr = "";
+        for (String value : values) {
+            valuesStr += " " + value;
+        }
+        String cmd = "lpush " + key + " " + valuesStr + "\r\n";
+        os.write(cmd.getBytes());
+
+        byte[] bytes = new byte[1024];
+        int len = is.read(bytes);
+
+        return new String(bytes,0,len);
+    }
+
+    public String lpop(final String key) throws IOException {
+
+        OutputStream os = socket.getOutputStream();
+        InputStream is = socket.getInputStream();
+
+        String cmd = "lpop " + key + "\r\n";
+        os.write(cmd.getBytes());
+
+        byte[] bytes = new byte[1024];
+        int len = is.read(bytes);
+
+
+        String[] results = new String(bytes,0,len).split("\r\n");
+//        if (results.length > 2) {
+//            Set<String> set = new HashSet<String>();
+//            for (int i = 2; i < results.length; i++) {
+//                if (i % 2 == 0) {
+//                    set.add(results[i]);
+//                }
+//            }
+//            return set;
+//        }
+        if (results.length > 1)
+            return results[1];
         return null;
     }
 

@@ -20,6 +20,9 @@ public class test {
 
         myRedis.expire("111", 1000);
         System.out.println(myRedis.ttl("111"));
+        
+        System.out.println(myRedis.del("111"));
+//        System.out.println(myRedis.lpush("111", "1", "2"));
 
 
         System.out.println(myRedis.sadd("s111", "2222", "3333"));//+OK
@@ -29,6 +32,12 @@ public class test {
         for (String item : set) {
             System.out.println(item);
         }
+        System.out.println("-------------------------");
+
+        System.out.println("-----------LIST----------");
+        System.out.println(myRedis.lpush("l111", "1", "2"));
+        System.out.println(myRedis.lpop("l111"));
+        System.out.println(myRedis.lpop("l111"));
         System.out.println("-------------------------");
     }
 }
