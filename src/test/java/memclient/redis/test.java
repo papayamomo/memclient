@@ -20,7 +20,7 @@ public class test {
 
         myRedis.expire("111", 1000);
         System.out.println(myRedis.ttl("111"));
-        
+
         System.out.println(myRedis.del("111"));
 //        System.out.println(myRedis.lpush("111", "1", "2"));
 
@@ -36,6 +36,7 @@ public class test {
 
         System.out.println("-----------LIST----------");
         System.out.println(myRedis.lpush("l111", "1", "2"));
+        System.out.println(myRedis.lrange("l111", 0, -1));
         System.out.println(myRedis.lpop("l111"));
         System.out.println(myRedis.lpop("l111"));
         System.out.println("-------------------------");

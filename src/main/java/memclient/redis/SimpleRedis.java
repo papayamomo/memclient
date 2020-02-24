@@ -215,4 +215,29 @@ public class SimpleRedis {
         return null;
     }
 
+    public List<String> lrange(final String key, int start, int end) throws IOException {
+
+        OutputStream os = socket.getOutputStream();
+        InputStream is = socket.getInputStream();
+
+        String cmd = "lrange " + key + " " + start + " " + end + "\r\n";
+        os.write(cmd.getBytes());
+
+        byte[] bytes = new byte[1024];
+        int len = is.read(bytes);
+
+
+        String[] results = new String(bytes,0,len).split("\r\n");
+        if (results.length > 2) {
+            List<String> list = new ArrayList<String>();
+            for (int i = 2; i < results.length; i++) {
+                if (i % 2 == 0) {
+                    list.add(results[i]);
+                }
+            }
+            return list;
+        }
+        return null;
+    }
+
 }
