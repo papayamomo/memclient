@@ -240,4 +240,39 @@ public class SimpleRedis {
         return null;
     }
 
+    /**
+     * hash
+     */
+    public String hset(final String key, String field, String value) throws IOException {
+
+        OutputStream os = socket.getOutputStream();
+        InputStream is = socket.getInputStream();
+
+        String cmd = "hset " + key + " " + field + " " + value + "\r\n";
+        os.write(cmd.getBytes());
+
+        byte[] bytes = new byte[1024];
+        int len = is.read(bytes);
+
+        return new String(bytes,0,len);
+    }
+
+    public String hget(final String key, String field) throws IOException {
+
+        OutputStream os = socket.getOutputStream();
+        InputStream is = socket.getInputStream();
+
+        String cmd = "hget " + key + " " + field + "\r\n";
+        os.write(cmd.getBytes());
+
+        byte[] bytes = new byte[1024];
+        int len = is.read(bytes);
+
+
+        String[] results = new String(bytes,0,len).split("\r\n");
+        if (results.length > 1)
+            return results[1];
+        return null;
+    }
+
 }

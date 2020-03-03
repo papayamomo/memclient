@@ -40,5 +40,10 @@ public class test {
         System.out.println(myRedis.lpop("l111"));
         System.out.println(myRedis.lpop("l111"));
         System.out.println("-------------------------");
+
+        System.out.println("-----------HASH----------");
+        System.out.println(myRedis.hset("HH","11", "22"));
+        System.out.println(myRedis.hget("HH", "11"));
+
     }
 }
